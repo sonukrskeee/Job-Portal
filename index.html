@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SarkariJobAlert.in - Latest Sarkari Result, Online Form, Admit Card & Govt Jobs</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Inter & Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Roboto Condensed', 'sans-serif'],
+                    },
+                    colors: {
+                        sarkari: {
+                            navy: '#1e293b',
+                            red: '#dc2626',
+                            redDark: '#b91c1c',
+                            blue: '#1d4ed8',
+                            blueDark: '#1e40af',
+                            green: '#15803d',
+                            greenDark: '#166534',
+                            amber: '#d97706',
+                            purple: '#6b21a8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Sarkari Result Signature Table Lines & Pattern */
+        .sarkari-table-header {
+            background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+        }
+        .sarkari-table-header-blue {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+        }
+        .sarkari-table-header-green {
+            background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+        }
+        .ad-slot-placeholder {
+            background-color: #f8fafc;
+            background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+            background-size: 14px 14px;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- =====================================================================
+         1. TOP ANNOUNCEMENT BAR & BRAND HEADER
+    ====================================================================== -->
+    <div class="bg-slate-900 text-slate-300 text-xs py-1.5 px-4 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center gap-3">
+                <span class="bg-rose-600 text-white font-bold px-2 py-0.5 rounded text-[10px] animate-pulse">LIVE UPDATES</span>
+                <span class="hidden sm:inline text-slate-400">India's No.1 Govt Job Notification Portal • Fast & Verified</span>
+            </div>
+            <div class="flex items-center gap-4 text-[11px]">
+                <span id="currentDateStr" class="text-slate-400"><i class="fa-regular fa-calendar-days mr-1"></i> Loading date...</span>
+                <span class="text-emerald-400 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> 100% Free Alerts</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Branding Header -->
+    <header class="bg-white border-b-4 border-sarkari-red shadow-sm sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-3">
+                
+                <!-- Logo & Tagline -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="resetAllFilters()">
+                    <div class="bg-sarkari-red text-white p-2.5 rounded-xl shadow-md">
+                        <i class="fa-solid fa-landmark-flag text-2xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl sm:text-3xl font-black font-heading tracking-tight text-slate-900">SARKARI<span class="text-sarkari-red">JOB</span>ALERT<span class="text-sarkari-blue text-lg">.IN</span></span>
+                        </div>
+                        <p class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider hidden sm:block">Sarkari Result • Online Form • Admit Card • Answer Key</p>
+                    </div>
+                </div>
+
+                <!-- Right Action Buttons -->
+                <div class="flex items-center gap-2.5">
+                    <button onclick="openAdminModal()" class="flex items-center gap-1.5 bg-sarkari-red hover:bg-sarkari-redDark text-white text-xs sm:text-sm font-bold px-3.5 py-2 rounded-lg shadow transition cursor-pointer">
+                        <i class="fa-solid fa-circle-plus text-amber-300"></i>
+                        <span>+ Post Update (Admin)</span>
+                    </button>
+                    <button onclick="toggleMobileNav()" class="md:hidden p-2 text-slate-700 rounded-lg hover:bg-slate-100">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Primary Horizontal Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-1 border-t border-slate-100 py-1.5 overflow-x-auto text-xs font-bold uppercase tracking-wider">
+                <button onclick="filterByCategory('All')" class="nav-tab text-sarkari-red bg-rose-50 px-3 py-1.5 rounded-md">Home</button>
+                <button onclick="filterByCategory('Latest Jobs')" class="nav-tab text-slate-700 hover:text-sarkari-red hover:bg-slate-100 px-3 py-1.5 rounded-md">Latest Jobs</button>
+                <button onclick="filterByCategory('Admit Card')" class="nav-tab text-slate-700 hover:text-sarkari-blue hover:bg-slate-100 px-3 py-1.5 rounded-md">Admit Card</button>
+                <button onclick="filterByCategory('Result')" class="nav-tab text-slate-700 hover:text-sarkari-green hover:bg-slate-100 px-3 py-1.5 rounded-md">Result</button>
+                <button onclick="filterByCategory('Answer Key')" class="nav-tab text-slate-700 hover:text-purple-700 hover:bg-slate-100 px-3 py-1.5 rounded-md">Answer Key</button>
+                <button onclick="filterByCategory('Syllabus')" class="nav-tab text-slate-700 hover:text-amber-700 hover:bg-slate-100 px-3 py-1.5 rounded-md">Syllabus</button>
+                <button onclick="filterByCategory('Admission')" class="nav-tab text-slate-700 hover:text-sky-700 hover:bg-slate-100 px-3 py-1.5 rounded-md">Admission</button>
+            </nav>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobileNav" class="hidden md:hidden bg-slate-900 text-white px-4 py-3 space-y-2 border-t border-slate-800 text-sm font-semibold">
+            <button onclick="filterByCategory('All'); toggleMobileNav()" class="block w-full text-left px-3 py-2 bg-sarkari-red rounded">Home</button>
+            <button onclick="filterByCategory('Latest Jobs'); toggleMobileNav()" class="block w-full text-left px-3 py-2 hover:bg-slate-800 rounded">Latest Jobs</button>
+            <button onclick="filterByCategory('Admit Card'); toggleMobileNav()" class="block w-full text-left px-3 py-2 hover:bg-slate-800 rounded">Admit Card</button>
+            <button onclick="filterByCategory('Result'); toggleMobileNav()" class="block w-full text-left px-3 py-2 hover:bg-slate-800 rounded">Result</button>
+            <button onclick="filterByCategory('Answer Key'); toggleMobileNav()" class="block w-full text-left px-3 py-2 hover:bg-slate-800 rounded">Answer Key</button>
+            <button onclick="filterByCategory('Syllabus'); toggleMobileNav()" class="block w-full text-left px-3 py-2 hover:bg-slate-800 rounded">Syllabus</button>
+            <button onclick="filterByCategory('Admission'); toggleMobileNav()" class="block w-full text-left px-3 py-2 hover:bg-slate-800 rounded">Admission</button>
+        </div>
+    </header>
+
+    <!-- =====================================================================
+         GOOGLE ADSENSE SLOT #1 (TOP LEADERBOARD 728x90)
+    ====================================================================== -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        <div class="ad-slot-placeholder border-2 border-dashed border-slate-300 rounded-xl p-3 text-center flex flex-col items-center justify-center min-h-[90px]">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 bg-white px-2 py-0.5 rounded border border-slate-200 mb-1">Advertisement • Google AdSense</span>
+            <p class="text-xs sm:text-sm font-semibold text-slate-600">Top Leaderboard Ad Slot (728x90 / Mobile Responsive)</p>
+            <p class="text-[11px] text-slate-400">Replace this block with your <code>&lt;ins class="adsbygoogle"&gt;</code> script.</p>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         2. TOP TRENDING HIGHLIGHT TILES (Sarkari Result Signature Grid)
+    ====================================================================== -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        <div class="flex items-center justify-between mb-2">
+            <h2 class="text-xs font-extrabold uppercase tracking-widest text-slate-500 flex items-center gap-1.5">
+                <i class="fa-solid fa-fire text-sarkari-red"></i> Hot Trending Updates
+            </h2>
+            <span class="text-[11px] font-semibold text-slate-500">Click any box for full notification</span>
+        </div>
+
+        <div id="highlightTilesGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+            <!-- Dynamic 6 Top Highlight Tiles Injected by JS -->
+        </div>
+    </section>
+
+    <!-- =====================================================================
+         3. SEARCH & ADVANCED FILTER TOOLBAR
+    ====================================================================== -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-5">
+        <div class="bg-white p-3 sm:p-4 rounded-xl shadow-sm border border-slate-200 grid grid-cols-1 sm:grid-cols-12 gap-2.5 text-xs">
+            
+            <!-- Search Keyword -->
+            <div class="sm:col-span-5 flex items-center px-3 py-2 bg-slate-50 rounded-lg border border-slate-200 focus-within:border-sarkari-red focus-within:bg-white">
+                <i class="fa-solid fa-magnifying-glass text-slate-400 mr-2"></i>
+                <input type="text" id="searchInput" oninput="applyAllFilters()" placeholder="Search exam name, post (e.g. SSC CGL, Police, Railway)..." class="w-full bg-transparent font-medium focus:outline-none">
+            </div>
+
+            <!-- State Filter -->
+            <div class="sm:col-span-3 flex items-center px-3 py-2 bg-slate-50 rounded-lg border border-slate-200">
+                <i class="fa-solid fa-map-location-dot text-slate-400 mr-2"></i>
+                <select id="stateFilter" onchange="applyAllFilters()" class="w-full bg-transparent font-semibold text-slate-700 focus:outline-none cursor-pointer">
+                    <option value="All">All States / Central Govt</option>
+                    <option value="All India">All India / Central</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh (UP)</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="Delhi">Delhi NCR</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Madhya Pradesh">Madhya Pradesh (MP)</option>
+                </select>
+            </div>
+
+            <!-- Qualification Filter -->
+            <div class="sm:col-span-3 flex items-center px-3 py-2 bg-slate-50 rounded-lg border border-slate-200">
+                <i class="fa-solid fa-user-graduate text-slate-400 mr-2"></i>
+                <select id="qualFilter" onchange="applyAllFilters()" class="w-full bg-transparent font-semibold text-slate-700 focus:outline-none cursor-pointer">
+                    <option value="All">All Qualifications</option>
+                    <option value="10th Pass">10th Pass</option>
+                    <option value="12th Pass">12th Pass</option>
+                    <option value="ITI / Diploma">ITI / Diploma</option>
+                    <option value="Any Graduate">Any Graduate (BA, B.Com, B.Sc)</option>
+                    <option value="B.Tech / BE">B.Tech / B.E / MCA</option>
+                </select>
+            </div>
+
+            <!-- Reset Button -->
+            <div class="sm:col-span-1">
+                <button onclick="resetAllFilters()" class="w-full h-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-2 rounded-lg transition">
+                    Reset
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================================
+         4. CORE 3-COLUMN PORTAL GRID (Signature Sarkari Result Layout)
+    ====================================================================== -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-6 flex-grow w-full">
+        
+        <!-- Active Filter Badge Info -->
+        <div id="filterBanner" class="hidden mb-4 bg-rose-50 border border-rose-200 rounded-lg p-2.5 flex justify-between items-center text-xs text-rose-800">
+            <span><i class="fa-solid fa-filter mr-1.5"></i> Showing filtered results for: <strong id="filterText">All</strong></span>
+            <button onclick="resetAllFilters()" class="font-bold underline hover:text-rose-900">Clear All Filters</button>
+        </div>
+
+        <!-- 3 Main Portal Columns -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            
+            <!-- COLUMN 1: RESULTS (Red Header) -->
+            <div class="bg-white border-2 border-sarkari-red rounded-xl overflow-hidden shadow-sm flex flex-col">
+                <div class="sarkari-table-header text-white font-heading text-lg font-bold px-4 py-2.5 flex justify-between items-center tracking-wide">
+                    <span><i class="fa-solid fa-trophy mr-2"></i> RESULT</span>
+                    <span id="resultCount" class="text-xs bg-white/20 px-2 py-0.5 rounded-full font-sans">0</span>
+                </div>
+                <div id="resultList" class="p-2 divide-y divide-slate-100 flex-grow max-h-[550px] overflow-y-auto">
+                    <!-- Dynamic Result Items -->
+                </div>
+                <div class="p-2 bg-slate-50 border-t border-slate-100 text-center">
+                    <button onclick="filterByCategory('Result')" class="text-xs font-bold text-sarkari-red hover:underline">View All Results &rarr;</button>
+                </div>
+            </div>
+
+            <!-- COLUMN 2: ADMIT CARD (Blue Header) -->
+            <div class="bg-white border-2 border-sarkari-blue rounded-xl overflow-hidden shadow-sm flex flex-col">
+                <div class="sarkari-table-header-blue text-white font-heading text-lg font-bold px-4 py-2.5 flex justify-between items-center tracking-wide">
+                    <span><i class="fa-solid fa-address-card mr-2"></i> ADMIT CARD</span>
+                    <span id="admitCount" class="text-xs bg-white/20 px-2 py-0.5 rounded-full font-sans">0</span>
+                </div>
+                <div id="admitList" class="p-2 divide-y divide-slate-100 flex-grow max-h-[550px] overflow-y-auto">
+                    <!-- Dynamic Admit Card Items -->
+                </div>
+                <div class="p-2 bg-slate-50 border-t border-slate-100 text-center">
+                    <button onclick="filterByCategory('Admit Card')" class="text-xs font-bold text-sarkari-blue hover:underline">View All Admit Cards &rarr;</button>
+                </div>
+            </div>
+
+            <!-- COLUMN 3: LATEST JOBS (Green Header) -->
+            <div class="bg-white border-2 border-sarkari-green rounded-xl overflow-hidden shadow-sm flex flex-col">
+                <div class="sarkari-table-header-green text-white font-heading text-lg font-bold px-4 py-2.5 flex justify-between items-center tracking-wide">
+                    <span><i class="fa-solid fa-briefcase mr-2"></i> LATEST JOBS</span>
+                    <span id="jobsCount" class="text-xs bg-white/20 px-2 py-0.5 rounded-full font-sans">0</span>
+                </div>
+                <div id="jobsList" class="p-2 divide-y divide-slate-100 flex-grow max-h-[550px] overflow-y-auto">
+                    <!-- Dynamic Job Items -->
+                </div>
+                <div class="p-2 bg-slate-50 border-t border-slate-100 text-center">
+                    <button onclick="filterByCategory('Latest Jobs')" class="text-xs font-bold text-sarkari-green hover:underline">View All Latest Jobs &rarr;</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- =====================================================================
+             GOOGLE ADSENSE SLOT #2 (BETWEEN GRID HORIZONTAL BANNER)
+        ====================================================================== -->
+        <div class="my-6">
+            <div class="ad-slot-placeholder border-2 border-dashed border-slate-300 rounded-xl p-4 text-center flex flex-col items-center justify-center min-h-[100px]">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 bg-white px-2 py-0.5 rounded border border-slate-200 mb-1">Advertisement • AdSense Responsive Horizontal Banner</span>
+                <p class="text-xs font-semibold text-slate-600">In-Feed Grid Divider Ad Unit (High Impression Rate)</p>
+            </div>
+        </div>
+
+        <!-- SECONDARY 3-COLUMN ROW (Answer Key, Syllabus, Admission) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            
+            <!-- Answer Key Box -->
+            <div class="bg-white border border-purple-300 rounded-xl overflow-hidden shadow-sm">
+                <div class="bg-purple-800 text-white font-heading text-base font-bold px-4 py-2 flex justify-between items-center">
+                    <span><i class="fa-solid fa-key mr-2"></i> ANSWER KEY</span>
+                    <span id="answerKeyCount" class="text-xs bg-white/20 px-2 py-0.5 rounded-full">0</span>
+                </div>
+                <div id="answerKeyList" class="p-2 divide-y divide-slate-100 max-h-[300px] overflow-y-auto text-xs">
+                    <!-- Dynamic Answer Key Items -->
+                </div>
+            </div>
+
+            <!-- Syllabus Box -->
+            <div class="bg-white border border-amber-300 rounded-xl overflow-hidden shadow-sm">
+                <div class="bg-amber-700 text-white font-heading text-base font-bold px-4 py-2 flex justify-between items-center">
+                    <span><i class="fa-solid fa-book-open mr-2"></i> SYLLABUS</span>
+                    <span id="syllabusCount" class="text-xs bg-white/20 px-2 py-0.5 rounded-full">0</span>
+                </div>
+                <div id="syllabusList" class="p-2 divide-y divide-slate-100 max-h-[300px] overflow-y-auto text-xs">
+                    <!-- Dynamic Syllabus Items -->
+                </div>
+            </div>
+
+            <!-- Admission Box -->
+            <div class="bg-white border border-sky-300 rounded-xl overflow-hidden shadow-sm">
+                <div class="bg-sky-800 text-white font-heading text-base font-bold px-4 py-2 flex justify-between items-center">
+          <span><i class="fa-solid fa-graduation-cap mr-2"></i> ADMISSION</span>
+                    <span id="admissionCount" class="text-xs bg-white/20 px-2 py-0.5 rounded-full">0</span>
+                </div>
+                <div id="admissionList" class="p-2 divide-y divide-slate-100 max-h-[300px] overflow-y-auto text-xs">
+                    <!-- Dynamic Admission Items -->
+                </div>
+            </div>
+
+        </div>
+        <!-- TELEGRAM & WHATSAPP TRAFFIC CHANNEL BANNER -->
+        <div class="mt-8 bg-gradient-to-r from-slate-900 via-brand-900 to-slate-900 rounded-2xl p-5 text-white shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-sarkari-red rounded-full flex items-center justify-center text-xl shrink-0">
+                    <i class="fa-solid fa-bell animate-bounce"></i>
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-base sm:text-lg">Sarkari Job Notification Instantly Apne Mobile Par Paayein!</h3>
+                    <p class="text-xs text-slate-300">Join our official Telegram Channel & WhatsApp Group for instant Sarkari Result alerts.</p>
+                </div>
+            </div>
+            <div class="flex gap-3 w-full md:w-auto shrink-0">
+                <a href="#telegram" onclick="showToast('Telegram Channel link placeholder! Replace with your URL.')" class="w-1/2 md:w-auto flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition">
+                    <i class="fa-brands fa-telegram text-base"></i> Telegram Channel
+                </a>
+                <a href="#whatsapp" onclick="showToast('WhatsApp Group link placeholder! Replace with your URL.')" class="w-1/2 md:w-auto flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition">
+                    <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp Group
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- =====================================================================
+         5. DETAILED SARKARI NOTIFICATION MODAL (Sarkari Result Table Style)
+    ====================================================================== -->
+    <div id="detailModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5">
+        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[95vh] overflow-y-auto shadow-2xl border border-slate-300">
+            
+            <!-- Modal Header -->
+            <div class="sticky top-0 bg-sarkari-navy text-white px-5 py-4 flex justify-between items-start z-10 border-b-4 border-sarkari-red">
+                <div>
+                    <span id="mCategoryBadge" class="inline-block bg-sarkari-red text-white text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded mb-1">
+                        LATEST JOB
+                    </span>
+                    <h2 id="mTitle" class="text-lg sm:text-xl font-black font-heading text-amber-300">
+                        SSC CGL 2026 Online Form
+                    </h2>
+                    <p id="mDept" class="text-xs text-slate-300">Staff Selection Commission (SSC)</p>
+                </div>
+                <button onclick="closeDetailModal()" class="text-slate-400 hover:text-white p-1 rounded-lg">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Content (Classic Sarkari Result Structured Table Layout) -->
+            <div class="p-4 sm:p-6 space-y-6 text-xs text-slate-800">
+                
+                <!-- Short Information Box -->
+                <div class="bg-rose-50 border-l-4 border-sarkari-red p-3.5 rounded-r-lg">
+                    <h4 class="font-bold text-sarkari-red uppercase tracking-wider text-[11px] mb-1">Short Information</h4>
+                    <p id="mShortInfo" class="text-slate-700 leading-relaxed">
+                        Notification details loading...
+                    </p>
+                </div>
+
+                <!-- Google AdSense Slot Inside Modal -->
+                <div class="ad-slot-placeholder border border-dashed border-slate-300 p-2.5 text-center rounded">
+                    <span class="text-[9px] font-bold text-slate-400 uppercase">Advertisement • In-Article AdSense</span>
+                </div>
+
+                <!-- Important Dates & Application Fee Twin Tables -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    
+                    <!-- Important Dates Table -->
+                    <div class="border border-slate-300 rounded-lg overflow-hidden">
+                        <div class="bg-slate-800 text-white font-bold px-3 py-2 text-center text-xs uppercase tracking-wider">
+                            <i class="fa-regular fa-calendar-check mr-1"></i> Important Dates
+                        </div>
+                        <table class="w-full text-left divide-y divide-slate-200">
+                            <tbody class="divide-y divide-slate-200">
+                                <tr>
+                                    <td class="p-2.5 font-semibold text-slate-600 bg-slate-50 w-1/2">Application Begin:</td>
+                                    <td id="mStartDate" class="p-2.5 font-bold text-slate-900">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-semibold text-slate-600 bg-slate-50">Last Date to Apply:</td>
+                                    <td id="mLastDate" class="p-2.5 font-bold text-rose-600">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-semibold text-slate-600 bg-slate-50">Fee Payment Last Date:</td>
+                                    <td id="mFeeDate" class="p-2.5 font-semibold text-slate-800">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-semibold text-slate-600 bg-slate-50">Exam Date:</td>
+                                    <td id="mExamDate" class="p-2.5 font-semibold text-sarkari-blue">-</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-semibold text-slate-600 bg-slate-50">Admit Card Available:</td>
+                                    <td id="mAdmitDate" class="p-2.5 font-semibold text-emerald-700">-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Application Fee Table -->
+                    <div class="border border-slate-300 rounded-lg overflow-hidden">
+                        <div class="bg-slate-800 text-white font-bold px-3 py-2 text-center text-xs uppercase tracking-wider">
+                            <i class="fa-solid fa-indian-rupee-sign mr-1"></i> Application Fee
+                        </div>
+                        <table class="w-full text-left divide-y divide-slate-200">
+                            <tbody class="divide-y divide-slate-200">
+                                <tr>
+                                    <td class="p-2.5 font-semibold text-slate-600 bg-slate-50 w-1/2">General / OBC / EWS:</td>
+                                    <td id="mFeeGen" class="p-2.5 font-bold text-slate-900">₹ 100/-</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-semibold text-slate-600 bg-slate-50">SC / ST / PH:</td>
+                                    <td id="mFeeSc" class="p-2.5 font-bold text-emerald-700">₹ 0/- (Exempted)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-semibold text-slate-600 bg-slate-50">All Category Female:</td>
+                                    <td id="mFeeFemale" class="p-2.5 font-bold text-emerald-700">₹ 0/- (Exempted)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-semibold text-slate-600 bg-slate-50">Payment Mode:</td>
+                                    <td id="mPayMode" class="p-2.5 font-semibold text-slate-800">Debit Card, Credit Card, Net Banking, UPI</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <!-- Age Limit & Total Vacancy Summary -->
+                <div class="border border-slate-300 rounded-lg p-3 bg-amber-50/50">
+                    <h4 class="font-bold text-amber-900 uppercase text-xs mb-1.5"><i class="fa-solid fa-user-clock mr-1"></i> Age Limit & Vacancy Overview</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <div><span class="text-slate-500">Minimum Age:</span> <strong id="mMinAge" class="text-slate-800">18 Years</strong></div>
+                        <div><span class="text-slate-500">Maximum Age:</span> <strong id="mMaxAge" class="text-slate-800">27-30 Years</strong></div>
+                        <div><span class="text-slate-500">Total Posts:</span> <strong id="mTotalVac" class="text-sarkari-red font-extrabold">17,727 Posts</strong></div>
+                    </div>
+                </div>
+
+                <!-- Vacancy Details Table -->
+                <div class="border border-slate-300 rounded-lg overflow-hidden">
+                    <div class="bg-slate-800 text-white font-bold px-3 py-2 text-center text-xs uppercase tracking-wider">
+                        Vacancy Details & Qualification Eligibility
+                    </div>
+                    <table class="w-full text-left divide-y divide-slate-200">
+                        <thead class="bg-slate-100 text-[11px] font-bold text-slate-700">
+                            <tr>
+                                <th class="p-2.5">Post Name</th>
+                                <th class="p-2.5">Total Post</th>
+                                <th class="p-2.5">Eligibility Qualification</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr>
+                                <td id="mTablePostName" class="p-2.5 font-bold text-slate-900">Various Group B & C Posts</td>
+                                <td id="mTableTotalPost" class="p-2.5 font-bold text-sarkari-red">17,727</td>
+                                <td id="mTableQual" class="p-2.5 text-slate-700">Bachelor Degree in Any Stream from Any Recognized University in India.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- IMPORTANT LINKS TABLE (Signature Red Links) -->
+                <div class="border-2 border-sarkari-red rounded-lg overflow-hidden">
+                    <div class="bg-sarkari-red text-white font-black px-4 py-2 text-center text-sm uppercase tracking-wider font-heading">
+                        <i class="fa-solid fa-link mr-1"></i> SOME USEFUL IMPORTANT LINKS
+                    </div>
+                    <table class="w-full text-left divide-y divide-slate-200 text-xs">
+                        <tbody class="divide-y divide-slate-200">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-800 w-1/2">Apply Online / Official Form</td>
+                                <td class="p-3 text-right">
+                                    <a id="mApplyBtn" href="#" target="_blank" rel="noopener" class="bg-sarkari-red hover:bg-sarkari-redDark text-white font-bold px-4 py-1.5 rounded inline-flex items-center gap-1 shadow-xs">
+                                        <span>Click Here</span> <i class="fa-solid fa-arrow-right-long text-[10px]"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-800">Download Official Notification (PDF)</td>
+                                <td class="p-3 text-right">
+                                    <a id="mPdfBtn" href="#" target="_blank" rel="noopener" class="bg-sarkari-blue hover:bg-sarkari-blueDark text-white font-bold px-4 py-1.5 rounded inline-flex items-center gap-1 shadow-xs">
+                                        <span>Download PDF</span> <i class="fa-solid fa-file-pdf text-[10px]"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-bold text-slate-800">Official Department Website</td>
+                                <td class="p-3 text-right">
+                                    <a id="mOfficialWebBtn" href="#" target="_blank" rel="noopener" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-4 py-1.5 rounded inline-flex items-center gap-1 shadow-xs">
+                                        <span>Official Website</span> <i class="fa-solid fa-globe text-[10px]"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-slate-100 border-t border-slate-200 px-6 py-3 flex justify-between items-center">
+                <span class="text-[11px] text-slate-500">Always verify details on official notification before applying.</span>
+                <button onclick="closeDetailModal()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-5 py-2 rounded-lg">
+                    Close Window
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         6. WORKING ADMIN PANEL MODAL ("+ Post Update")
+    ====================================================================== -->
+    <div id="adminModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-300">
+            <div class="bg-sarkari-navy text-white px-5 py-4 flex justify-between items-center border-b-4 border-sarkari-red">
+                <div>
+                    <h3 class="font-bold text-base flex items-center gap-2">
+                        <i class="fa-solid fa-plus-circle text-sarkari-red"></i> Post New Sarkari Job / Result / Admit Card
+                    </h3>
+                    <p class="text-xs text-slate-300">Add updates directly to your portal live!</p>
+                </div>
+                <button onclick="closeAdminModal()" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <form id="adminPostForm" onsubmit="handleAdminSubmit(event)" class="p-5 space-y-4 text-xs">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Section / Category *</label>
+                        <select id="pCategory" required class="w-full border border-slate-300 rounded-lg p-2 font-semibold">
+                            <option value="Latest Jobs">Latest Jobs</option>
+                            <option value="Admit Card">Admit Card</option>
+                            <option value="Result">Result</option>
+                            <option value="Answer Key">Answer Key</option>
+                            <option value="Syllabus">Syllabus</option>
+                            <option value="Admission">Admission</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">State / Central *</label>
+                        <select id="pState" required class="w-full border border-slate-300 rounded-lg p-2 font-semibold">
+                            <option value="All India">All India / Central</option>
+                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                            <option value="Bihar">Bihar</option>
+                            <option value="Delhi">Delhi NCR</option>
+                            <option value="Rajasthan">Rajasthan</option>
+                            <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Qualification Required *</label>
+                        <select id="pQual" required class="w-full border border-slate-300 rounded-lg p-2 font-semibold">
+                            <option value="Any Graduate">Any Graduate</option>
+                            <option value="10th Pass">10th Pass</option>
+                            <option value="12th Pass">12th Pass</option>
+                            <option value="ITI / Diploma">ITI / Diploma</option>
+                            <option value="B.Tech / BE">B.Tech / BE</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Notification Title *</label>
+                        <input type="text" id="pTitle" required placeholder="e.g. UP Police Constable 60244 Final Result 2026" class="w-full border border-slate-300 rounded-lg p-2">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Department / Organization *</label>
+                        <input type="text" id="pDept" required placeholder="e.g. Uttar Pradesh Police Recruitment Board" class="w-full border border-slate-300 rounded-lg p-2">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Total Vacancies / Posts</label>
+                        <input type="text" id="pVacancies" placeholder="e.g. 60,244 Posts" class="w-full border border-slate-300 rounded-lg p-2">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Last Date / Status *</label>
+                        <input type="text" id="pLastDate" required placeholder="e.g. 15 Dec 2026" class="w-full border border-slate-300 rounded-lg p-2">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Application Fee (Gen/OBC)</label>
+                        <input type="text" id="pFee" placeholder="e.g. ₹ 400/-" class="w-full border border-slate-300 rounded-lg p-2">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Official Website / Apply Link *</label>
+                    <input type="url" id="pLink" required value="https://ssc.gov.in" class="w-full border border-slate-300 rounded-lg p-2">
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Short Notification Description *</label>
+                    <textarea id="pInfo" rows="3" required placeholder="Write brief details about exam stages, syllabus, or result cutoff..." class="w-full border border-slate-300 rounded-lg p-2"></textarea>
+                </div>
+<div class="flex flex-wrap justify-between items-center gap-2 pt-3 border-t border-slate-200">
+                    <button type="button" onclick="restoreDefaults()" class="text-rose-600 font-bold hover:underline">
+                        Restore Default Demo Data
+                    </button>
+                    <div class="flex gap-2">
+                        <button type="button" onclick="copyJsonSnippet()" class="bg-slate-700 hover:bg-slate-800 text-white font-bold px-3 py-2 rounded-lg">
+                            <i class="fa-solid fa-code mr-1"></i> Copy Data JSON
+                        </button>
+                        <button type="submit" class="bg-sarkari-red hover:bg-sarkari-redDark text-white font-bold px-5 py-2 rounded-lg shadow">
+                            Publish Update Live
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- LEGAL ADSENSE COMPLIANCE FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 border-t-4 border-sarkari-red mt-12 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-2 text-white font-heading font-black text-xl mb-2">
+                        <span class="text-sarkari-red"><i class="fa-solid fa-landmark-flag"></i></span> SARKARIJOBALERT.IN
+                    </div>
+                    <p class="leading-relaxed text-slate-400 max-w-lg">
+                        SarkariJobAlert.in provides real-time notifications for Sarkari Result, SSC, UPSC, Banking, Railway, UP Police, Bihar Police, Admit Cards, and Answer Keys. We aggregate official notification PDFs for informational purposes.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold uppercase tracking-wider mb-2">Quick Sections</h4>
+                    <ul class="space-y-1.5">
+                        <li><a href="#" onclick="filterByCategory('Latest Jobs')" class="hover:text-white">Latest Sarkari Jobs 2026</a></li>
+                        <li><a href="#" onclick="filterByCategory('Admit Card')" class="hover:text-white">Sarkari Admit Card Download</a></li>
+                        <li><a href="#" onclick="filterByCategory('Result')" class="hover:text-white">Sarkari Result 2026</a></li>
+                        <li><a href="#" onclick="filterByCategory('Answer Key')" class="hover:text-white">Official Answer Key</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold uppercase tracking-wider mb-2">Legal & Contact</h4>
+                    <ul class="space-y-1.5">
+                        <li><a href="#" onclick="showLegalInfo('About Us', 'SarkariJobAlert.in is India\'s fast-growing independent educational news aggregator for central and state job examinations.')" class="hover:text-white">About Us</a></li>
+                        <li><a href="#" onclick="showLegalInfo('Disclaimer', 'SarkariJobAlert.in is NOT affiliated with any Government entity. All recruitment logos belong to respective organizations. Verify details on official PDFs.')" class="hover:text-white">Disclaimer</a></li>
+                        <li><a href="#" onclick="showLegalInfo('Privacy Policy', 'We use Google AdSense and third-party cookies to serve relevant advertisement banners. User privacy is fully preserved.')" class="hover:text-white">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 mt-6 pt-4 text-center text-slate-500">
+                &copy; 2026 SarkariJobAlert.in. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Component -->
+    <div id="toast" class="hidden fixed bottom-5 right-5 z-50 bg-slate-900 text-white font-medium text-xs sm:text-sm px-4 py-3 rounded-xl shadow-2xl border border-slate-700 flex items-center gap-2">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+        <span id="toastText">Action successful</span>
+    </div>
+   <!-- =====================================================================
+         JAVASCRIPT DATA ENGINE & CONTROLLERS
+    ====================================================================== -->
+    <script>
+        // Default Verified Sarkari Notifications Dataset
+        const defaultSarkariData = [
+            {
+                id: 1,
+                title: "SSC CGL 2026 Online Form",
+                dept: "Staff Selection Commission (SSC)",
+                category: "Latest Jobs",
+                state: "All India",
+                qual: "Any Graduate",
+                vacancies: "17,727 Posts",
+                lastDate: "15 Dec 2026",
+                fee: "₹ 100/- (SC/ST/Female: ₹ 0)",
+                isHot: true,
+                badgeColor: "bg-rose-600 text-white",
+                info: "Staff Selection Commission has released the official Combined Graduate Level (CGL) 2026 examination notification for Group B & C posts across central ministries.",
+                startDate: "15 Nov 2026",
+                examDate: "Jan 2027",
+                admitDate: "7 Days Before Exam",
+                link: "https://ssc.gov.in"
+            },
+            {
+                id: 2,
+                title: "UP Police Constable 60244 Final Result 2026",
+                dept: "UPPRPB Lucknow",
+                category: "Result",
+                state: "Uttar Pradesh",
+                qual: "12th Pass",
+                vacancies: "60,244 Posts",
+                lastDate: "Result Out",
+                fee: "₹ 400/-",
+                isHot: true,
+                badgeColor: "bg-emerald-600 text-white",
+                info: "Uttar Pradesh Police Recruitment and Promotion Board (UPPRPB) has declared the final merit list and category-wise cutoff marks for Constable Civil Police recruitment.",
+                startDate: "27 Dec 2024",
+                examDate: "Completed",
+                admitDate: "Released",
+                link: "https://uppbpb.gov.in"
+            },
+            {
+                id: 3,
+                title: "Railway RRB NTPC Graduate Admit Card 2026",
+                dept: "Railway Recruitment Boards (RRB)",
+                category: "Admit Card",
+                state: "All India",
+                qual: "Any Graduate",
+                vacancies: "11,558 Posts",
+                lastDate: "Exam: 02 Dec 2026",
+                fee: "₹ 500/- (Refundable ₹400)",
+                isHot: true,
+                badgeColor: "bg-sky-600 text-white",
+                info: "Railway Recruitment Board has published the CBT-1 Admit Card and Exam City Intimation slip download link for Non-Technical Popular Categories (NTPC) posts.",
+                startDate: "21 Sep 2024",
+                examDate: "02 - 12 Dec 2026",
+                admitDate: "Available Now",
+                link: "https://www.rrbcdg.gov.in"
+            },
+            {
+                id: 4,
+                title: "UPSC Civil Services IAS / IFS Prelims 2026 Form",
+                dept: "Union Public Service Commission",
+                category: "Latest Jobs",
+                state: "All India",
+                qual: "Any Graduate",
+                vacancies: "1,056 Posts",
+                lastDate: "05 Dec 2026",
+                fee: "₹ 100/- (SC/ST/Female: ₹ 0)",
+                isHot: true,
+                badgeColor: "bg-amber-600 text-white",
+                info: "UPSC Civil Services Preliminary Examination 2026 online application link is active. Eligible candidates can submit application forms before deadline.",
+                startDate: "10 Nov 2026",
+                examDate: "25 May 2027",
+                admitDate: "May 2027",
+                link: "https://upsc.gov.in"
+            },
+            {
+                id: 5,
+                title: "BPSC 70th Combined Prelims Result & Cutoff 2026",
+                dept: "Bihar Public Service Commission",
+                category: "Result",
+                state: "Bihar",
+                qual: "Any Graduate",
+                vacancies: "1,957 Posts",
+                lastDate: "Result Declared",
+                fee: "₹ 600/-",
+                isHot: true,
+                badgeColor: "bg-purple-600 text-white",
+                info: "BPSC has announced the 70th CCE Integrated Combined Competitive Preliminary Exam result along with category-wise cutoff marks.",
+                startDate: "28 Sep 2024",
+                examDate: "Completed",
+                admitDate: "Released",
+                link: "https://bpsc.bih.nic.in"
+            },
+            {
+                id: 6,
+                title: "IBPS PO XV Probationary Officer Online Form 2026",
+                dept: "Institute of Banking Personnel Selection",
+                category: "Latest Jobs",
+                state: "All India",
+                qual: "Any Graduate",
+                vacancies: "4,455 Posts",
+                lastDate: "28 Nov 2026",
+                fee: "₹ 850/- (SC/ST/PH: ₹ 175)",
+                isHot: true,
+                badgeColor: "bg-blue-600 text-white",
+                info: "IBPS PO Recruitment 2026 notification for 4,455 Probationary Officer / Management Trainee vacancies in participating public sector banks.",
+                startDate: "01 Nov 2026",
+                examDate: "Dec 2026",
+                admitDate: "7 Days Prior",
+                link: "https://ibps.in"
+            },
+            {
+                id: 7,
+                title: "RRC Railway Apprentice 2026 (10th + ITI)",
+                dept: "Railway Recruitment Cell",
+                category: "Latest Jobs",
+                state: "All India",
+                qual: "10th Pass",
+                vacancies: "3,115 Posts",
+                lastDate: "10 Dec 2026",
+                fee: "₹ 100/-",
+                isHot: false,
+                badgeColor: "bg-slate-600 text-white",
+                info: "Trade Apprentice engagement in various railway divisions. Selection based on merit list of 10th & ITI marks without written exam.",
+                startDate: "10 Nov 2026",
+                examDate: "No Exam (Merit List)",
+                admitDate: "Dec 2026",
+                link: "https://indianrailways.gov.in"
+            },
+            {
+                id: 8,
+                title: "SSC GD Constable Answer Key 2026",
+                dept: "Staff Selection Commission",
+                category: "Answer Key",
+                state: "All India",
+                qual: "10th Pass",
+                vacancies: "26,146 Posts",
+                lastDate: "Key Released",
+                fee: "₹ 100 per challenge",
+                isHot: false,
+                badgeColor: "bg-purple-600 text-white",
+                info: "SSC GD Constable CBT exam tentative answer key & response sheet available. Candidates can submit representations online.",
+                startDate: "Completed",
+                examDate: "Completed",
+                admitDate: "Released",
+                link: "https://ssc.gov.in"
+            },
+            {
+                id: 9,
+                title: "NTA NEET UG 2026 Application Form / Admission",
+                dept: "National Testing Agency (NTA)",
+                category: "Admission",
+                state: "All India",
+                qual: "12th Pass",
+                vacancies: "MBBS/BDS Seats",
+                lastDate: "30 Dec 2026",
+                fee: "₹ 1700/-",
+                isHot: false,
+                badgeColor: "bg-sky-600 text-white",
+                info: "National Eligibility Cum Entrance Test (NEET UG) registration window open for admission to medical degree courses.",
+                startDate: "15 Nov 2026",
+                examDate: "04 May 2027",
+                admitDate: "April 2027",
+                link: "https://neet.nta.nic.in"
+            },
+            {
+                id: 10,
+                title: "UP Primary Teacher (69,000) Revised Syllabus 2026",
+                dept: "UP Basic Education Board",
+                category: "Syllabus",
+                state: "Uttar Pradesh",
+                qual: "Any Graduate",
+                vacancies: "Syllabus PDF",
+                lastDate: "Download",
+                fee: "Free PDF",
+                isHot: false,
+                badgeColor: "bg-amber-600 text-white",
+                info: "Download official subject-wise topic list and exam pattern PDF for upcoming Assistant Teacher eligibility tests.",
+                startDate: "N/A",
+                examDate: "2027",
+                admitDate: "N/A",
+                link: "https://updeled.gov.in"
+            }
+        ];
+
+        // State Engine
+        let sarkariData = JSON.parse(localStorage.getItem('sarkariData_v1')) || defaultSarkariData;
+        let activeCategoryFilter = 'All';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Display formatted date in top utility bar
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('en-IN', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' });
+            document.getElementById('currentDateStr').innerHTML = `<i class="fa-regular fa-calendar-days mr-1"></i> ${dateStr}`;
+
+            renderHighlightTiles();
+            renderPortalLists(sarkariData);
+        });
+
+        // 1. Render Top 6 Signature Sarkari Result Highlight Tiles
+        function renderHighlightTiles() {
+            const container = document.getElementById('highlightTilesGrid');
+            const hots = sarkariData.filter(d => d.isHot).slice(0, 6);
+            
+            container.innerHTML = '';
+            hots.forEach((item, idx) => {
+                const borderColors = ['border-sarkari-red', 'border-sarkari-blue', 'border-sarkari-green', 'border-amber-600', 'border-purple-600', 'border-sky-600'];
+                const bgHeaderColors = ['bg-sarkari-red', 'bg-sarkari-blue', 'bg-sarkari-green', 'bg-amber-600', 'bg-purple-600', 'bg-sky-600'];
+                const border = borderColors[idx % borderColors.length];
+                const headerBg = bgHeaderColors[idx % bgHeaderColors.length];
+
+                const card = document.createElement('div');
+                card.className = `bg-white border-2 ${border} rounded-xl overflow-hidden shadow-xs hover:shadow-md transition cursor-pointer flex flex-col justify-between`;
+                card.onclick = () => openDetailModal(item.id);
+
+                card.innerHTML = `
+                    <div class="${headerBg} text-white font-extrabold text-[11px] px-2.5 py-1 text-center truncate uppercase tracking-wider">
+                        ${item.category}
+                    </div>
+                    <div class="p-2.5 text-center flex-grow flex flex-col justify-center">
+                        <h4 class="font-bold text-slate-900 text-xs sm:text-sm line-clamp-2 leading-tight hover:text-sarkari-red">
+                            ${item.title}
+                        </h4>
+                        <span class="text-[10px] text-slate-500 font-semibold mt-1 block">${item.state}</span>
+                    </div>
+                    <div class="bg-slate-50 border-t border-slate-100 text-[10px] font-bold text-center py-1 text-rose-600">
+                        ${item.lastDate}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // 2. Render Main 3-Column + Secondary Grid Lists
+        function renderPortalLists(list) {
+            const results = list.filter(i => i.category === 'Result');
+            const admits = list.filter(i => i.category === 'Admit Card');
+            const jobs = list.filter(i => i.category === 'Latest Jobs');
+            const answerKeys = list.filter(i => i.category === 'Answer Key');
+            const syllabi = list.filter(i => i.category === 'Syllabus');
+            const admissions = list.filter(i => i.category === 'Admission');
+
+            document.getElementById('resultCount').textContent = results.length;
+            document.getElementById('admitCount').textContent = admits.length;
+            document.getElementById('jobsCount').textContent = jobs.length;
+            document.getElementById('answerKeyCount').textContent = answerKeys.length;
+            document.getElementById('syllabusCount').textContent = syllabi.length;
+            document.getElementById('admissionCount').textContent = admissions.length;
+
+            renderColumnItems('resultList', results, 'text-sarkari-red');
+            renderColumnItems('admitList', admits, 'text-sarkari-blue');
+            renderColumnItems('jobsList', jobs, 'text-sarkari-green');
+            renderColumnItems('answerKeyList', answerKeys, 'text-purple-700');
+            renderColumnItems('syllabusList', syllabi, 'text-amber-700');
+            renderColumnItems('admissionList', admissions, 'text-sky-700');
+        }
+
+        function renderColumnItems(elementId, items, titleHoverColor) {
+            const container = document.getElementById(elementId);
+            container.innerHTML = '';
+
+            if (items.length === 0) {
+                container.innerHTML = `<div class="p-4 text-center text-slate-400 text-xs italic">No matching updates</div>`;
+                return;
+            }
+
+            items.forEach(item => {
+                const row = document.createElement('div');
+                row.className = "py-2 px-1 hover:bg-slate-50 transition cursor-pointer flex justify-between items-start gap-2";
+                row.onclick = () => openDetailModal(item.id);
+
+                row.innerHTML = `
+                    <div class="flex-grow">
+                        <h4 class="text-xs sm:text-sm font-bold text-slate-800 ${titleHoverColor} leading-snug">
+                            <span class="inline-block w-1.5 h-1.5 rounded-full bg-sarkari-red mr-1.5"></span>
+                            ${item.title}
+                        </h4>
+                        <div class="flex flex-wrap items-center gap-2 mt-0.5 text-[10px] text-slate-500 font-medium">
+                            <span><i class="fa-regular fa-building mr-0.5"></i>${item.dept}</span>
+                            <span class="text-slate-400">•</span>
+                            <span class="text-emerald-700 font-bold">${item.qual}</span>
+                        </div>
+                    </div>
+                    <span class="shrink-0 text-[10px] font-extrabold text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded border border-rose-200">
+                        ${item.lastDate}
+                    </span>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        // 3. Filter Execution Logic
+        function applyAllFilters() {
+            const searchKw = document.getElementById('searchInput').value.toLowerCase().trim();
+            const stateVal = document.getElementById('stateFilter').value;
+            const qualVal = document.getElementById('qualFilter').value;
+
+            const banner = document.getElementById('filterBanner');
+            const filterText = document.getElementById('filterText');
+
+            if (searchKw || stateVal !== 'All' || qualVal !== 'All' || activeCategoryFilter !== 'All') {
+                banner.classList.remove('hidden');
+                filterText.textContent = `Category: ${activeCategoryFilter} | State: ${stateVal} | Qual: ${qualVal} ${searchKw ? '| Keyword: '+searchKw : ''}`;
+            } else {
+                banner.classList.add('hidden');
+            }
+
+            const filtered = sarkariData.filter(item => {
+                const matchCategory = activeCategoryFilter === 'All' || item.category === activeCategoryFilter;
+                const matchState = stateVal === 'All' || item.state === stateVal;
+                const matchQual = qualVal === 'All' || item.qual.includes(qualVal);
+                const matchSearch = !searchKw || 
+                    item.title.toLowerCase().includes(searchKw) || 
+                    item.dept.toLowerCase().includes(searchKw) ||
+                    item.info.toLowerCase().includes(searchKw);
+
+                return matchCategory && matchState && matchQual && matchSearch;
+            });
+
+            renderPortalLists(filtered);
+        }
+
+        function filterByCategory(cat) {
+            activeCategoryFilter = cat;
+            applyAllFilters();
+        }
+
+        function resetAllFilters() {
+            activeCategoryFilter = 'All';
+            document.getElementById('searchInput').value = '';
+            document.getElementById('stateFilter').value = 'All';
+            document.getElementById('qualFilter').value = 'All';
+            applyAllFilters();
+        }
+
+        function toggleMobileNav() {
+            document.getElementById('mobileNav').classList.toggle('hidden');
+        }
+
+        // 4. Structured Sarkari Notification Detail Modal
+        function openDetailModal(id) {
+            const item = sarkariData.find(i => i.id === id);
+            if (!item) return;
+
+            document.getElementById('mCategoryBadge').textContent = item.category;
+            document.getElementById('mTitle').textContent = item.title;
+            document.getElementById('mDept').textContent = item.dept + " (" + item.state + ")";
+            document.getElementById('mShortInfo').textContent = item.info;
+
+            document.getElementById('mStartDate').textContent = item.startDate || "Active Now";
+            document.getElementById('mLastDate').textContent = item.lastDate;
+            document.getElementById('mFeeDate').textContent = item.lastDate;
+            document.getElementById('mExamDate').textContent = item.examDate || "Notify Soon";
+            document.getElementById('mAdmitDate').textContent = item.admitDate || "Notify Soon";
+
+            document.getElementById('mFeeGen').textContent = item.fee || "₹ 100/-";
+            document.getElementById('mTablePostName').textContent = item.title;
+            document.getElementById('mTableTotalPost').textContent = item.vacancies || "Various Posts";
+            document.getElementById('mTableQual').textContent = item.qual + " from any recognized board/university in India.";
+
+            document.getElementById('mApplyBtn').href = item.link || "#";
+            document.getElementById('mPdfBtn').href = item.link || "#";
+            document.getElementById('mOfficialWebBtn').href = item.link || "#";
+
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+        }
+
+        // 5. Admin "+ Post Update" Logic
+        function openAdminModal() {
+            document.getElementById('adminModal').classList.remove('hidden');
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.add('hidden');
+        }
+
+        function handleAdminSubmit(e) {
+            e.preventDefault();
+            const today = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+            const newItem = {
+                id: Date.now(),
+                title: document.getElementById('pTitle').value.trim(),
+                dept: document.getElementById('pDept').value.trim(),
+                category: document.getElementById('pCategory').value,
+                state: document.getElementById('pState').value,
+                qual: document.getElementById('pQual').value,
+                vacancies: document.getElementById('pVacancies').value.trim() || "Not Specified",
+                lastDate: document.getElementById('pLastDate').value.trim(),
+                fee: document.getElementById('pFee').value.trim() || "₹ 0/-",
+                isHot: true,
+                badgeColor: "bg-sarkari-red text-white",
+                info: document.getElementById('pInfo').value.trim(),
+                startDate: today,
+                examDate: "To Be Announced",
+                admitDate: "To Be Announced",
+     link: document.getElementById('pLink').value.trim()
+            };
+
+            sarkariData.unshift(newItem);
+            localStorage.setItem('sarkariData_v1', JSON.stringify(sarkariData));
+
+            document.getElementById('adminPostForm').reset();
+            closeAdminModal();
+            renderHighlightTiles();
+            resetAllFilters();
+            showToast('New Sarkari update published live to portal!');
+        }
+
+        function restoreDefaults() {
+            localStorage.removeItem('sarkariData_v1');
+            sarkariData = [...defaultSarkariData];
+            renderHighlightTiles();
+            resetAllFilters();
+            closeAdminModal();
+            showToast('Portal restored to default demo notifications.');
+        }
+
+        function copyJsonSnippet() {
+            const jsonText = `const defaultSarkariData = ${JSON.stringify(sarkariData, null, 2)};`;
+            const el = document.createElement('textarea');
+            el.value = jsonText;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            showToast('JSON Dataset copied to clipboard!');
+        }
+
+        function showLegalInfo(title, body) {
+            alert(`${title}:\n\n${body}`);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastText').textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
+                
