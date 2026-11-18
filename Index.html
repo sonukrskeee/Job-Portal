@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SarkariJobAlert.in - Latest Sarkari Result, Online Form, Admit Card & Govt Jobs</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Inter & Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Roboto Condensed', 'sans-serif'],
+                    },
+                    colors: {
+                        sarkari: {
+                            navy: '#1e293b',
+                            red: '#dc2626',
+                            redDark: '#b91c1c',
+                            blue: '#1d4ed8',
+                            blueDark: '#1e40af',
+                            green: '#15803d',
+                            greenDark: '#166534',
+                            amber: '#d97706',
+                            purple: '#6b21a8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Sarkari Result Signature Table Lines & Pattern */
+        .sarkari-table-header {
+            background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+        }
+        .sarkari-table-header-blue {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+        }
+        .sarkari-table-header-green {
+            background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+        }
+        .ad-slot-placeholder {
+            background-color: #f8fafc;
+            background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+            background-size: 14px 14px;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- =====================================================================
+         1. TOP ANNOUNCEMENT BAR & BRAND HEADER
+    ====================================================================== -->
+    <div class="bg-slate-900 text-slate-300 text-xs py-1.5 px-4 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center gap-3">
+                <span class="bg-rose-600 text-white font-bold px-2 py-0.5 rounded text-[10px] animate-pulse">LIVE UPDATES</span>
+                <span class="hidden sm:inline text-slate-400">India's No.1 Govt Job Notification Portal • Fast & Verified</span>
+            </div>
+            <div class="flex items-center gap-4 text-[11px]">
+                <span id="currentDateStr" class="text-slate-400"><i class="fa-regular fa-calendar-days mr-1"></i> Loading date...</span>
+                <span class="text-emerald-400 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> 100% Free Alerts</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Branding Header -->
+    <header class="bg-white border-b-4 border-sarkari-red shadow-sm sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-3">
+                
+                <!-- Logo & Tagline -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="resetAllFilters()">
+                    <div class="bg-sarkari-red text-white p-2.5 rounded-xl shadow-md">
+                        <i class="fa-solid fa-landmark-flag text-2xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl sm:text-3xl font-black font-heading tracking-tight text-slate-900">SARKARI<span class="text-sarkari-red">JOB</span>ALERT<span class="text-sarkari-blue text-lg">.IN</span></span>
+                        </div>
+                        <p class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider hidden sm:block">Sarkari Result • Online Form • Admit Card • Answer Key</p>
+                    </div>
+                </div>
+
+                <!-- Right Action Buttons -->
+                <div class="flex items-center gap-2.5">
+                    <button onclick="openAdminModal()" class="flex items-center gap-1.5 bg-sarkari-red hover:bg-sarkari-redDark text-white text-xs sm:text-sm font-bold px-3.5 py-2 rounded-lg shadow transition cursor-pointer">
+                        <i class="fa-solid fa-circle-plus text-amber-300"></i>
+                        <span>+ Post Update (Admin)</span>
+                    </button>
+                    <button onclick="toggleMobileNav()" class="md:hidden p-2 text-slate-700 rounded-lg hover:bg-slate-100">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Primary Horizontal Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-1 border-t border-slate-100 py-1.5 overflow-x-auto text-xs font-bold uppercase tracking-wider">
+                <button onclick="filterByCategory('All')" class="nav-tab text-sarkari-red bg-rose-50 px-3 py-1.5 rounded-md">Home</button>
+                <button onclick="filterByCategory('Latest Jobs')" class="nav-tab text-slate-700 hover:text-sarkari-red hover:bg-slate-100 px-3 py-1.5 rounded-md">Latest Jobs</button>
+                <button onclick="filterByCategory('Admit Card')" class="nav-tab text-slate-700 hover:text-sarkari-blue hover:bg-slate-100 px-3 py-1.5 rounded-md">Admit Card</button>
+                <button onclick="filterByCategory('Result')" class="nav-tab text-slate-700 hover:text-sarkari-green hover:bg-slate-100 px-3 py-1.5 rounded-md">Result</button>
+                <button onclick="filterByCategory('Answer Key')" class="nav-tab text-slate-700 hover:text-purple-700 hover:bg-slate-100 px-3 py-1.5 rounded-md">Answer Key</button>
+                <button onclick="filterByCategory('Syllabus')" class="nav-tab text-slate-700 hover:text-amber-700 hover:bg-slate-100 px-3 py-1.5 rounded-md">Syllabus</button>
+                <button onclick="filterByCategory('Admission')" class="nav-tab text-slate-700 hover:text-sky-700 hover:bg-slate-100 px-3 py-1.5 rounded-md">Admission</button>
+            </nav>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobileNav" class="hidden md:hidden bg-slate-900 text-white px-4 py-3 space-y-2 border-t border-slate-800 text-sm font-semibold">
+            <button onclick="filterByCategory('All'); toggleMobileNav()" class="block w-full text-left px-3 py-2 bg-sarkari-red rounded">Home</button>
+            <button onclick="filterByCategory('Latest Jobs'); toggleMobileNav()" class="block w-full text-left px-3 py-2 hover:bg-slate-800 rounded">Latest Jobs</button>
+            <button onclick="filterByCategory('Admit Card'); toggleMobileNav()" class="block w-full text-left px-3 py-2 hover:bg-slate-800 rounded">Admit Card</button>
+            <button onclick="filterByCategory('Result'); toggleMobileNav()" class="block w-full text-left px-3 py-2 hover:bg-slate-800 rounded">Result</button>
+            <button onclick="filterByCategory('Answer Key'); toggleMobileNav()" class="block w-full text-left px-3 py-2 hover:bg-slate-800 rounded">Answer Key</button>
+            <button onclick="filterByCategory('Syllabus'); toggleMobileNav()" class="block w-full text-left px-3 py-2 hover:bg-slate-800 rounded">Syllabus</button>
+            <button onclick="filterByCategory('Admission'); toggleMobileNav()" class="block w-full text-left px-3 py-2 hover:bg-slate-800 rounded">Admission</button>
+        </div>
+    </header>
+
+    <!-- =====================================================================
+         GOOGLE ADSENSE SLOT #1 (TOP LEADERBOARD 728x90)
+    ====================================================================== -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        <div class="ad-slot-placeholder border-2 border-dashed border-slate-300 rounded-xl p-3 text-center flex flex-col items-center justify-center min-h-[90px]">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 bg-white px-2 py-0.5 rounded border border-slate-200 mb-1">Advertisement • Google AdSense</span>
+            <p class="text-xs sm:text-sm font-semibold text-slate-600">Top Leaderboard Ad Slot (728x90 / Mobile Responsive)</p>
+            <p class="text-[11px] text-slate-400">Replace this block with your <code>&lt;ins class="adsbygoogle"&gt;</code> script.</p>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         2. TOP TRENDING HIGHLIGHT TILES (Sarkari Result Signature Grid)
+    ====================================================================== -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        <div class="flex items-center justify-between mb-2">
+            <h2 class="text-xs font-extrabold uppercase tracking-widest text-slate-500 flex items-center gap-1.5">
+                <i class="fa-solid fa-fire text-sarkari-red"></i> Hot Trending Updates
+            </h2>
+            <span class="text-[11px] font-semibold text-slate-500">Click any box for full notification</span>
+        </div>
+
+        <div id="highlightTilesGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+            <!-- Dynamic 6 Top Highlight Tiles Injected by JS -->
+        </div>
+    </section>
+
+    <!-- =====================================================================
+         3. SEARCH & ADVANCED FILTER TOOLBAR
+    ====================================================================== -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-5">
+        <div class="bg-white p-3 sm:p-4 rounded-xl shadow-sm border border-slate-200 grid grid-cols-1 sm:grid-cols-12 gap-2.5 text-xs">
+            
+            <!-- Search Keyword -->
+            <div class="sm:col-span-5 flex items-center px-3 py-2 bg-slate-50 rounded-lg border border-slate-200 focus-within:border-sarkari-red focus-within:bg-white">
+                <i class="fa-solid fa-magnifying-glass text-slate-400 mr-2"></i>
+                <input type="text" id="searchInput" oninput="applyAllFilters()" placeholder="Search exam name, post (e.g. SSC CGL, Police, Railway)..." class="w-full bg-transparent font-medium focus:outline-none">
+            </div>
+
+            <!-- State Filter -->
+            <div class="sm:col-span-3 flex items-center px-3 py-2 bg-slate-50 rounded-lg border border-slate-200">
+                <i class="fa-solid fa-map-location-dot text-slate-400 mr-2"></i>
+                <select id="stateFilter" onchange="applyAllFilters()" class="w-full bg-transparent font-semibold text-slate-700 focus:outline-none cursor-pointer">
+                    <option value="All">All States / Central Govt</option>
+                    <option value="All India">All India / Central</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh (UP)</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="Delhi">Delhi NCR</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Madhya Pradesh">Madhya Pradesh (MP)</option>
+                </select>
+            </div>
+
+            <!-- Qualification Filter -->
+            <div class="sm:col-span-3 flex items-center px-3 py-2 bg-slate-50 rounded-lg border border-slate-200">
+                <i class="fa-solid fa-user-graduate text-slate-400 mr-2"></i>
+                <select id="qualFilter" onchange="applyAllFilters()" class="w-full bg-transparent font-semibold text-slate-700 focus:outline-none cursor-pointer">
+                    <option value="All">All Qualifications</option>
+                    <option value="10th Pass">10th Pass</option>
+                    <option value="12th Pass">12th Pass</option>
+                    <option value="ITI / Diploma">ITI / Diploma</option>
+                    <option value="Any Graduate">Any Graduate (BA, B.Com, B.Sc)</option>
+                    <option value="B.Tech / BE">B.Tech / B.E / MCA</option>
+                </select>
+            </div>
+
+            <!-- Reset Button -->
+            <div class="sm:col-span-1">
+                <button onclick="resetAllFilters()" class="w-full h-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-2 rounded-lg transition">
+                    Reset
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================================
+         4. CORE 3-COLUMN PORTAL GRID (Signature Sarkari Result Layout)
+    ====================================================================== -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-6 flex-grow w-full">
+        
+        <!-- Active Filter Badge Info -->
+        <div id="filterBanner" class="hidden mb-4 bg-rose-50 border border-rose-200 rounded-lg p-2.5 flex justify-between items-center text-xs text-rose-800">
+            <span><i class="fa-solid fa-filter mr-1.5"></i> Showing filtered results for: <strong id="filterText">All</strong></span>
+            <button onclick="resetAllFilters()" class="font-bold underline hover:text-rose-900">Clear All Filters</button>
+        </div>
+
+        <!-- 3 Main Portal Columns -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            
+            <!-- COLUMN 1: RESULTS (Red Header) -->
+            <div class="bg-white border-2 border-sarkari-red rounded-xl overflow-hidden shadow-sm flex flex-col">
+                <div class="sarkari-table-header text-white font-heading text-lg font-bold px-4 py-2.5 flex justify-between items-center tracking-wide">
+                    <span><i class="fa-solid fa-trophy mr-2"></i> RESULT</span>
+                    <span id="resultCount" class="text-xs bg-white/20 px-2 py-0.5 rounded-full font-sans">0</span>
+                </div>
+                <div id="resultList" class="p-2 divide-y divide-slate-100 flex-grow max-h-[550px] overflow-y-auto">
+                    <!-- Dynamic Result Items -->
+                </div>
+                <div class="p-2 bg-slate-50 border-t border-slate-100 text-center">
+                    <button onclick="filterByCategory('Result')" class="text-xs font-bold text-sarkari-red hover:underline">View All Results &rarr;</button>
+                </div>
+            </div>
+
+            <!-- COLUMN 2: ADMIT CARD (Blue Header) -->
+            <div class="bg-white border-2 border-sarkari-blue rounded-xl overflow-hidden shadow-sm flex flex-col">
+                <div class="sarkari-table-header-blue text-white font-heading text-lg font-bold px-4 py-2.5 flex justify-between items-center tracking-wide">
+                    <span><i class="fa-solid fa-address-card mr-2"></i> ADMIT CARD</span>
+                    <span id="admitCount" class="text-xs bg-white/20 px-2 py-0.5 rounded-full font-sans">0</span>
+                </div>
+                <div id="admitList" class="p-2 divide-y divide-slate-100 flex-grow max-h-[550px] overflow-y-auto">
+                    <!-- Dynamic Admit Card Items -->
+                </div>
+                <div class="p-2 bg-slate-50 border-t border-slate-100 text-center">
+                    <button onclick="filterByCategory('Admit Card')" class="text-xs font-bold text-sarkari-blue hover:underline">View All Admit Cards &rarr;</button>
+                </div>
+            </div>
+
+            <!-- COLUMN 3: LATEST JOBS (Green Header) -->
+            <div class="bg-white border-2 border-sarkari-green rounded-xl overflow-hidden shadow-sm flex flex-col">
+                <div class="sarkari-table-header-green text-white font-heading text-lg font-bold px-4 py-2.5 flex justify-between items-center tracking-wide">
+                    <span><i class="fa-solid fa-briefcase mr-2"></i> LATEST JOBS</span>
+                    <span id="jobsCount" class="text-xs bg-white/20 px-2 py-0.5 rounded-full font-sans">0</span>
+                </div>
+                <div id="jobsList" class="p-2 divide-y divide-slate-100 flex-grow max-h-[550px] overflow-y-auto">
+                    <!-- Dynamic Job Items -->
+                </div>
+                <div class="p-2 bg-slate-50 border-t border-slate-100 text-center">
+                    <button onclick="filterByCategory('Latest Jobs')" class="text-xs font-bold text-sarkari-green hover:underline">View All Latest Jobs &rarr;</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- =====================================================================
+             GOOGLE ADSENSE SLOT #2 (BETWEEN GRID HORIZONTAL BANNER)
+        ====================================================================== -->
+        <div class="my-6">
+            <div class="ad-slot-placeholder border-2 border-dashed border-slate-300 rounded-xl p-4 text-center flex flex-col items-center justify-center min-h-[100px]">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 bg-white px-2 py-0.5 rounded border border-slate-200 mb-1">Advertisement • AdSense Responsive Horizontal Banner</span>
+                <p class="text-xs font-semibold text-slate-600">In-Feed Grid Divider Ad Unit (High Impression Rate)</p>
+            </div>
+        </div>
+
+        <!-- SECONDARY 3-COLUMN ROW (Answer Key, Syllabus, Admission) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            
+            <!-- Answer Key Box -->
+            <div class="bg-white border border-purple-300 rounded-xl overflow-hidden shadow-sm">
+                <div class="bg-purple-800 text-white font-heading text-base font-bold px-4 py-2 flex justify-between items-center">
+                    <span><i class="fa-solid fa-key mr-2"></i> ANSWER KEY</span>
+                    <span id="answerKeyCount" class="text-xs bg-white/20 px-2 py-0.5 rounded-full">0</span>
+                </div>
+                <div id="answerKeyList" class="p-2 divide-y divide-slate-100 max-h-[300px] overflow-y-auto text-xs">
+                    <!-- Dynamic Answer Key Items -->
+                </div>
+            </div>
+
+            <!-- Syllabus Box -->
+            <div class="bg-white border border-amber-300 rounded-xl overflow-hidden shadow-sm">
+                <div class="bg-amber-700 text-white font-heading text-base font-bold px-4 py-2 flex justify-between items-center">
+                    <span><i class="fa-solid fa-book-open mr-2"></i> SYLLABUS</span>
+                    <span id="syllabusCount" class="text-xs bg-white/20 px-2 py-0.5 rounded-full">0</span>
+                </div>
+                <div id="syllabusList" class="p-2 divide-y divide-slate-100 max-h-[300px] overflow-y-auto text-xs">
+                    <!-- Dynamic Syllabus Items -->
+                </div>
+            </div>
+
+            <!-- Admission Box -->
+            <div class="bg-white border border-sky-300 rounded-xl overflow-hidden shadow-sm">
+                <div class="bg-sky-800 text-white font-heading text-base font-bold px-4 py-2 flex justify-between items-center">
+  
